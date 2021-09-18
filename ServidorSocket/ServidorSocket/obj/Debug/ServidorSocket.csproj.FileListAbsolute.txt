@@ -1,1 +1,6 @@
 D:\PROJETOS\Treino_Socket_C#\ServidorSocket\ServidorSocket\bin\Debug\ServidorSocket.exe.config
+D:\PROJETOS\Treino_Socket_C#\ServidorSocket\ServidorSocket\bin\Debug\ServidorSocket.exe
+D:\PROJETOS\Treino_Socket_C#\ServidorSocket\ServidorSocket\bin\Debug\ServidorSocket.pdb
+D:\PROJETOS\Treino_Socket_C#\ServidorSocket\ServidorSocket\obj\Debug\ServidorSocket.csprojResolveAssemblyReference.cache
+D:\PROJETOS\Treino_Socket_C#\ServidorSocket\ServidorSocket\obj\Debug\ServidorSocket.exe
+D:\PROJETOS\Treino_Socket_C#\ServidorSocket\ServidorSocket\obj\Debug\ServidorSocket.pdb
