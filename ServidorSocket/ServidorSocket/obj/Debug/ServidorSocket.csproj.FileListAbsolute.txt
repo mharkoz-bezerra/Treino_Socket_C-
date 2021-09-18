@@ -1,0 +1,1 @@
+D:\PROJETOS\Treino_Socket_C#\ServidorSocket\ServidorSocket\bin\Debug\ServidorSocket.exe.config
