@@ -51,12 +51,12 @@ namespace Treino_Socket_II
                 switch (numero)
                 {
                     case 1:
-                        Servidor servidor = new Servidor("127.0.0.1",8080);
+                        Servidor servidor = new Servidor("10.0.0.235",8080);
                         servidor.Iniciar();
                         servidor.Ouvir();
                         break;
                     case 2:
-                        Cliente cliente = new Cliente("127.0.0.1", 8080);
+                        Cliente cliente = new Cliente("10.0.0.235", 8080);
                         cliente.Iniciar();
                         cliente.Conversar();
                         break;

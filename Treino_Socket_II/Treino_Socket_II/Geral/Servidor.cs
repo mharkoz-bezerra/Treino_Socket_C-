@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Threading;
 namespace Treino_Socket_II.Geral
 {
     class Servidor
@@ -35,14 +35,20 @@ namespace Treino_Socket_II.Geral
         ///  Usado para inicar uma comunicação um cliente.
         /// </summary>
         public void Iniciar() {
-            byte[] bytes;                          //Número máximo que poderá receber 1 MegaByte
-            string mensagem = string.Empty;
 
-            SctCliente = SctServidor.Accept();
+            Thread tr;
+            while (true) {
+                Console.WriteLine("Aguardando Conexão....");
+                SctCliente = SctServidor.Accept();
+                tr = new Thread(ClienteConexao);
+                tr.Start(SctCliente);
+                Console.WriteLine("Conexão realizada!");
+            }
         }
         public void Ouvir() {
             byte[] bytes;
             int finalIndex;
+
             while (true)
             {
                 bytes = new byte[1024];
@@ -56,6 +62,25 @@ namespace Treino_Socket_II.Geral
             }
         }
 
+        public void ClienteConexao(object sct) {
+
+            Socket sCliente = (Socket)sct;
+            while (true)
+            {
+                byte[] bytes = new byte[1024];                            //Número máximo que poderá receber 1 MegaByte
+                string mensagem = string.Empty;
+                sCliente.Receive(bytes);                                //Passa valores recebidos para o array de bytes
+                mensagem = Encoding.ASCII.GetString(bytes);             //Converte o byte para string.
+                int finalIndex = mensagem.IndexOf('\0');                //Remove tudo que contert \0
+                if (finalIndex > 0)
+                    mensagem = mensagem.Substring(0, finalIndex);
+
+                Console.WriteLine($"Mensagem Recebida: {mensagem}");    //Informa a mensagem
+                Console.Out.Flush();                                    //Obriga a atualização do console
+                bytes = null;
+            }
+
+        }
 
         #region Métodos
         #endregion
