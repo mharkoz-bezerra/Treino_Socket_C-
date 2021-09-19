@@ -43,6 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Geral\Cliente.cs" />
+    <Compile Include="Geral\Servidor.cs" />
+    <Compile Include="Geral\Usuario.cs" />
+    <Compile Include="Geral\BinarioSerializacao.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
