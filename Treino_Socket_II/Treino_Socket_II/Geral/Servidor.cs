@@ -19,6 +19,7 @@ namespace Treino_Socket_II.Geral
         #endregion
 
         ///Construtor da clase;
+        [Obsolete]
         public Servidor(string ip, int porta) {
 
             Host = Dns.GetHostByName(ip);
