@@ -47,41 +47,62 @@ namespace Treino_Socket_II.Geral
         }
         public void Ouvir() {
             byte[] bytes;
-            int finalIndex;
-
             while (true)
             {
                 bytes = new byte[1024];
-                SctCliente.Receive(bytes);                              //Passa valores recebidos para o array de bytes
-                string mensagem = Encoding.ASCII.GetString(bytes);      //Converte o byte para string.
-                finalIndex = mensagem.IndexOf('\0');                    //Remove tudo que contert \0
-                if (finalIndex > 0)
-                    mensagem = mensagem.Substring(0, finalIndex);
-                Console.WriteLine($"Mensagem Recebida: {mensagem}");    //Informa a mensagem
+                SctCliente.Receive(bytes);
+                string mensagem = deBytesParaString(bytes);
+                Console.WriteLine($"Cliente: {deBytesParaString(bytes)}");    //Informa a mensagem
                 bytes = null;
             }
         }
-
+        public void Responder() {
+            
+               
+           
+        }
         public void ClienteConexao(object sct) {
 
             Socket sCliente = (Socket)sct;
-            while (true)
-            {
-                byte[] bytes = new byte[1024];                            //Número máximo que poderá receber 1 MegaByte
-                string mensagem = string.Empty;
-                sCliente.Receive(bytes);                                //Passa valores recebidos para o array de bytes
-                mensagem = Encoding.ASCII.GetString(bytes);             //Converte o byte para string.
-                int finalIndex = mensagem.IndexOf('\0');                //Remove tudo que contert \0
-                if (finalIndex > 0)
-                    mensagem = mensagem.Substring(0, finalIndex);
+            try {
+                while (true)
+                {
+                    byte[] bytes = new byte[1024];                            //Número máximo que poderá receber 1 MegaByte
+                    string mensagem = string.Empty;
+                    sCliente.Receive(bytes);                                //Passa valores recebidos para o array de bytes
+                    mensagem = Encoding.ASCII.GetString(bytes);             //Converte o byte para string.
+                    int finalIndex = mensagem.IndexOf('\0');                //Remove tudo que contert \0
+                    if (finalIndex > 0)
+                        mensagem = mensagem.Substring(0, finalIndex);
 
-                Console.WriteLine($"Mensagem Recebida: {mensagem}");    //Informa a mensagem
-                Console.Out.Flush();                                    //Obriga a atualização do console
-                bytes = null;
+                    Console.WriteLine($"Cliente: {mensagem}");    //Informa a mensagem
+                    Console.Out.Flush();                                    //Obriga a atualização do console
+                    Console.Write("Responder : ");
+                    string resposta = Console.ReadLine();
+                    bytes = Encoding.ASCII.GetBytes(resposta);
+                    SctCliente.Send(bytes);
+                }
             }
+            catch (SocketException se) {
+
+                Console.WriteLine("Cliente desconectado {0}", se.Message);
+            }
+            
 
         }
 
+        /// <summary>
+        /// Converte uma array de bytes em string
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+        public string deBytesParaString(byte[] bytes) {
+            string mensagem = Encoding.ASCII.GetString(bytes);
+            int finalDeMensagem = mensagem.IndexOf('\0');
+            if (finalDeMensagem > 0)
+                mensagem = mensagem.Substring(0, finalDeMensagem);
+            return mensagem;
+        }
         #region Métodos
         #endregion
 

@@ -32,15 +32,40 @@ namespace Treino_Socket_II.Geral
         }
 
         public void Conversar() {
-            while (true)
-            {
-                Console.Write(" -> Mensagem: ");
-                string mensagem = Console.ReadLine();
-                byte[] bytes = new byte[1024];
-                bytes = Encoding.ASCII.GetBytes(mensagem);
-                SctCliente.Send(bytes);
-                Console.WriteLine("Mensagem enviada para o servidor!");
+
+            try {
+                while (true)
+                {
+                    Console.Write(" -> Mensagem: ");
+                    string mensagem = Console.ReadLine();
+                    byte[] bytes = new byte[1024];
+                    bytes = Encoding.ASCII.GetBytes(mensagem);
+                    SctCliente.Send(bytes);
+                    Console.Out.Flush();
+                    OuvirServidor();
+                }
             }
+            catch (SocketException se) {
+                Console.WriteLine("Conexao com servidor caiu {0}", se.Message);
+            }
+           
+        }
+
+        public void OuvirServidor() {
+
+            byte[] bytes = new byte[1024];
+            SctCliente.Receive(bytes);
+            String mensagem = deBytesParaString(bytes);
+            Console.WriteLine($"Resposta: {mensagem}");
+            
+        }
+        public string deBytesParaString(byte[] bytes)
+        {
+            string mensagem = Encoding.ASCII.GetString(bytes);
+            int finalDeMensagem = mensagem.IndexOf('\0');
+            if (finalDeMensagem > 0)
+                mensagem = mensagem.Substring(0, finalDeMensagem);
+            return mensagem;
         }
     }
 }
