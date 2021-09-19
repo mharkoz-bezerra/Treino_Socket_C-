@@ -59,6 +59,7 @@ namespace Treino_Socket_II
                         Cliente cliente = new Cliente("10.0.0.235", 8080);
                         cliente.Iniciar();
                         cliente.Conversar();
+                        cliente.OuvirServidor();
                         break;
                     case 9: 
                         _rodando = false;
