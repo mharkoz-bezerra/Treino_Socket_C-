@@ -35,15 +35,25 @@ namespace Treino_Socket_II.Geral
         ///  Usado para inicar uma comunicação um cliente.
         /// </summary>
         public void Iniciar() {
-            byte[] bytes = new byte[1024];                          //Número máximo que poderá receber 1 MegaByte
+            byte[] bytes;                          //Número máximo que poderá receber 1 MegaByte
             string mensagem = string.Empty;
 
             SctCliente = SctServidor.Accept();
-           
-            SctCliente.Receive(bytes);                              //Passa valores recebidos para o array de bytes
-            mensagem = Encoding.ASCII.GetString(bytes);             //Converte o byte para string.
-            Console.WriteLine($"Mensagem Recebida: {mensagem}");    //Informa a mensagem
-
+        }
+        public void Ouvir() {
+            byte[] bytes;
+            int finalIndex;
+            while (true)
+            {
+                bytes = new byte[1024];
+                SctCliente.Receive(bytes);                              //Passa valores recebidos para o array de bytes
+                string mensagem = Encoding.ASCII.GetString(bytes);      //Converte o byte para string.
+                finalIndex = mensagem.IndexOf('\0');                    //Remove tudo que contert \0
+                if (finalIndex > 0)
+                    mensagem = mensagem.Substring(0, finalIndex);
+                Console.WriteLine($"Mensagem Recebida: {mensagem}");    //Informa a mensagem
+                bytes = null;
+            }
         }
 
 

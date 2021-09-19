@@ -53,9 +53,12 @@ namespace Treino_Socket_II
                     case 1:
                         Servidor servidor = new Servidor("127.0.0.1",8080);
                         servidor.Iniciar();
+                        servidor.Ouvir();
                         break;
                     case 2:
-                       
+                        Cliente cliente = new Cliente("127.0.0.1", 8080);
+                        cliente.Iniciar();
+                        cliente.Conversar();
                         break;
                     case 9: 
                         _rodando = false;

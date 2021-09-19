@@ -31,12 +31,16 @@ namespace Treino_Socket_II.Geral
             SctCliente.Connect(IPPontoFinal);
         }
 
-        public void Enviar(string mensagem) {
-
-            byte[] bytes = new byte[1024];
-            bytes = Encoding.ASCII.GetBytes(mensagem);
-            SctCliente.Send(bytes);
-            Console.WriteLine("Mensagem enviada para o servidor!");
+        public void Conversar() {
+            while (true)
+            {
+                Console.Write(" -> Mensagem: ");
+                string mensagem = Console.ReadLine();
+                byte[] bytes = new byte[1024];
+                bytes = Encoding.ASCII.GetBytes(mensagem);
+                SctCliente.Send(bytes);
+                Console.WriteLine("Mensagem enviada para o servidor!");
+            }
         }
     }
 }
