@@ -10,16 +10,16 @@ namespace ServidorSocket.Geral
 {
     class Servidor
     {
-       private static Socket ouvinte = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-       private static Socket conexao;
-       private static IPEndPoint conectar = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8080);
+        private static Socket Ouvinte = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        private static Socket conexao;
+        private static IPEndPoint conectar = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8080);
 
         public static void Ouvir()
         {
-            ouvinte.Bind(conectar);                                     //Conecta ao ip que foi informado;
-            ouvinte.Listen(3);                                          //Ouve uma quantidade máxima de conexão
+            Ouvinte.Bind(conectar);                                     //Conecta ao ip que foi informado;
+            Ouvinte.Listen(3);                                          //Ouve uma quantidade máxima de conexão
 
-            conexao = ouvinte.Accept();                                 //Recebe a conexão que  foi realizada.
+            conexao = Ouvinte.Accept();                                 //Recebe a conexão que  foi realizada.
             Console.WriteLine($"Conexão aceita :)");
 
             byte[] bytes = new byte[1024];                              //Tamanho máximo que será suportado;

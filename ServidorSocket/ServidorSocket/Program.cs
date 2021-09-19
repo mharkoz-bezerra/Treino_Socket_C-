@@ -10,8 +10,6 @@ namespace ServidorSocket
 {
     class Program
     {
-        public static IFormatProvider numServidor { get; private set; }
-
         static void Main(string[] args)
         {
             bool _rodando = true;
@@ -21,6 +19,7 @@ namespace ServidorSocket
 
             while (_rodando) {
                 int numServidor = 9999;
+
                 Console.WriteLine("Digite as informações presentes para iniciar \n");
                 Console.WriteLine("0 - Servidor | 1 - Cliente  |5 - Sair");
                 string dados = Console.ReadLine();
@@ -37,10 +36,23 @@ namespace ServidorSocket
 
                     case 0:
                         Console.WriteLine("Modo Servidor Ativo");
+                        while (true)
+                        {
+                            Servidor.Ouvir();
+                        }
                         break;
                     case 1:
                         Console.WriteLine("Modo Cliente Ativo");
-                        Cliente.EnviarMensagem();
+                        bool sair = false;
+
+                        while (sair == false)
+                        {
+                            Cliente.EnviarMensagem();
+
+                            Console.WriteLine("Digite: 3 - para continuar | 4 - Para sair");
+                            string sSair = Console.ReadLine();
+                            sair = sSair == "4";
+                        }
                         break;
                     case 5:
                         Console.WriteLine("\n Processo finalizado!!!");
@@ -49,6 +61,7 @@ namespace ServidorSocket
                 }
             }
             Console.ReadKey();
+
         }
     }
 }
