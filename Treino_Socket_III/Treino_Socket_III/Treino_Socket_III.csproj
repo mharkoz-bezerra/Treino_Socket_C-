@@ -43,7 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Chat\ChatServidor.cs" />
     <Compile Include="Geral\Cliente.cs" />
+    <Compile Include="Geral\Mensagem.cs" />
     <Compile Include="Geral\Servidor.cs" />
     <Compile Include="Geral\Usuario.cs" />
     <Compile Include="Geral\BinarioSerializacao.cs" />

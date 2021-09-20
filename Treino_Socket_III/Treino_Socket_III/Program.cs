@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Treino_Socket_III.Chat;
 using Treino_Socket_III.Geral;
 
 namespace Treino_Socket_III
@@ -28,8 +29,9 @@ namespace Treino_Socket_III
             Console.WriteLine("# =                                                              = # ");
             Console.WriteLine("# =____________________  Menu Explicativo  ______________________= # ");
             Console.WriteLine("# =                                                              = # ");
-            Console.WriteLine("# =   Digite: 1 - Para rodar como  servidor.                     = # ");
+            Console.WriteLine("# =   Digite: 1 - Para rodar como  Servidor.                     = # ");
             Console.WriteLine("# =   Digite: 2 - Para rodar como  Cliente .                     = # ");
+            Console.WriteLine("# =   Digite: 3 - Para rodar como  Servidor Chat.                = # ");
             Console.WriteLine("# =   Digite: 9 - Para sair.                                     = # ");
             Console.Write("# Informe sua opção:");
             informeUsuario = Console.ReadLine();
@@ -46,6 +48,7 @@ namespace Treino_Socket_III
                     Console.WriteLine("# =                                                              = # ");
                     Console.WriteLine("# =   Digite: 1 - Para rodar como  servidor.                     = # ");
                     Console.WriteLine("# =   Digite: 2 - Para rodar como  Cliente .                     = # ");
+                    Console.WriteLine("# =   Digite: 3 - Para rodar como  Servidor Chat.                = # ");
                     Console.WriteLine("# =   Digite: 9 - Para sair.                                     = # ");
                     Console.Write("# Informe sua opção:");
                     informeUsuario = Console.ReadLine();
@@ -63,6 +66,10 @@ namespace Treino_Socket_III
                         cliente.Iniciar();
                         cliente.Conversar();
                         cliente.OuvirServidor();
+                        break;
+                    case 3:
+                        ChatServidor chatServer = new ChatServidor();
+                        chatServer.LigarServidor();
                         break;
                     case 9:
                         _rodando = false;
