@@ -43,6 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Catracas\Controller\FuncoesHenry.cs" />
+    <Compile Include="Catracas\Controller\ServidorHenry.cs" />
+    <Compile Include="Catracas\Model\Comanda.cs" />
+    <Compile Include="Catracas\Uteis\Henry.cs" />
+    <Compile Include="Catracas\Model\Catraca.cs" />
+    <Compile Include="Catracas\Model\MensagemCatraca.cs" />
+    <Compile Include="Catracas\Uteis\ServicoSegundoPlano.cs" />
+    <Compile Include="Chat\ChatCliente.cs" />
+    <Compile Include="Chat\ChatManager.cs" />
     <Compile Include="Chat\ChatServidor.cs" />
     <Compile Include="Geral\Cliente.cs" />
     <Compile Include="Geral\Mensagem.cs" />
@@ -55,6 +64,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

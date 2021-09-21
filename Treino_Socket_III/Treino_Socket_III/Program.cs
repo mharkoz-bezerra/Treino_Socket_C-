@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Treino_Socket_III.Catracas;
+using Treino_Socket_III.Catracas.Uteis;
 using Treino_Socket_III.Chat;
 using Treino_Socket_III.Geral;
 
@@ -32,6 +34,8 @@ namespace Treino_Socket_III
             Console.WriteLine("# =   Digite: 1 - Para rodar como  Servidor.                     = # ");
             Console.WriteLine("# =   Digite: 2 - Para rodar como  Cliente .                     = # ");
             Console.WriteLine("# =   Digite: 3 - Para rodar como  Servidor Chat.                = # ");
+            Console.WriteLine("# =   Digite: 4 - Para rodar como  Cliente Catraca Henry         = # ");
+            Console.WriteLine("# =   Digite: 5 - Para rodar como  Servidor Catraca Henry        = # ");
             Console.WriteLine("# =   Digite: 9 - Para sair.                                     = # ");
             Console.Write("# Informe sua opção:");
             informeUsuario = Console.ReadLine();
@@ -49,6 +53,8 @@ namespace Treino_Socket_III
                     Console.WriteLine("# =   Digite: 1 - Para rodar como  servidor.                     = # ");
                     Console.WriteLine("# =   Digite: 2 - Para rodar como  Cliente .                     = # ");
                     Console.WriteLine("# =   Digite: 3 - Para rodar como  Servidor Chat.                = # ");
+                    Console.WriteLine("# =   Digite: 4 - Para rodar como  Cliente Catraca Henry         = # ");
+                    Console.WriteLine("# =   Digite: 5 - Para rodar como  Servidor Catraca Henry        = # ");
                     Console.WriteLine("# =   Digite: 9 - Para sair.                                     = # ");
                     Console.Write("# Informe sua opção:");
                     informeUsuario = Console.ReadLine();
@@ -57,7 +63,7 @@ namespace Treino_Socket_III
                 switch (numero)
                 {
                     case 1:
-                        Servidor servidor = new Servidor("10.0.0.235", 8080);
+                        Servidor servidor = new Servidor("localhost", 8080);
                         servidor.Iniciar();
                         servidor.Ouvir();
                         break;
@@ -70,6 +76,15 @@ namespace Treino_Socket_III
                     case 3:
                         ChatServidor chatServer = new ChatServidor();
                         chatServer.LigarServidor();
+                        break;
+                    case 4:
+                        ServicoSegundoPlano.Execultando = true;
+                        ServicoSegundoPlano.EscutarCatracaHenry();
+                        break;
+                    case 5:
+                        ServidorHenry srvHenry = new ServidorHenry("127.0.0.1", 3000);
+                        srvHenry.Iniciar();
+                        srvHenry.Ouvir();
                         break;
                     case 9:
                         _rodando = false;
