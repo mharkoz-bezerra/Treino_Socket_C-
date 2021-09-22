@@ -41,10 +41,8 @@ namespace Treino_Socket_III.Catracas.Uteis
             while (Execultando) {
 
                 foreach (var c in catracas)
-                {
-                    Henry henry = new Henry();
-                    henry.Execultar(c);
-                }
+                    Henry.Execultar(c);
+                
 
                 Console.WriteLine("Sistema de Catraca está rodando...");
                 Console.WriteLine("Precione C e depois Enter para Fechar o Sistema");

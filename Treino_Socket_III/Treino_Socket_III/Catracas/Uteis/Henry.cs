@@ -11,13 +11,21 @@ using System.Threading;
 
 namespace Treino_Socket_III.Catracas
 {
-    class Henry
+    public class Henry
     {
-        private int TipoEquipamento { get; set; }
-        private Socket SctCatraca { get; set; }
-        private void Ouvir(object objSocket)
-        {
+        #region Variáveis
+        private static int TipoEquipamento { get; set; }
+        private static Socket SctCatraca { get; set; }
+        public static Object Banco { get; set; }
 
+        #endregion Variáveis
+        public Henry()
+        {
+        }
+
+        #region Métodos
+        private static async void Ouvir(object objSocket)
+        {
             try
             {
                 Socket sct = (Socket)objSocket;
@@ -30,72 +38,111 @@ namespace Treino_Socket_III.Catracas
                 {
                     //Recebe a mensagem enviada
                     string msgRecebida = FuncoesHenry.Receber(sct);
-                    byte[] bytes = Encoding.ASCII.GetBytes(msgRecebida);
-                    MensagemCatraca msg = FuncoesHenry.RecuperarMensagem(bytes);
-                    
-                    
-
+                    MensagemCatraca msg = FuncoesHenry.RecuperarMensagem(msgRecebida);
                     //Verifica a informação
-                    
                     if (msg.NumeroCartao <= 0)
+                    {
+                        msg = null;
                         continue;
-
-
+                    }
                     //Formata a mensagem
-                    string responder = string.Empty;
-                    responder = PrepararComando(msg.CodigoComando);
+                    string responder = PrepararComando(msg.NumeroCartao);
                     responder = FuncoesHenry.FormatarTexto(responder);
+                    //Envia a mensagem para a catraca.
                     FuncoesHenry.Enviar(responder, sct);
-                    
+
+                    //Limpa as informações
+                    msg = null;
+                    msgRecebida = string.Empty;
+                    responder = string.Empty;
                 }
             }
             catch (SocketException s_erro)
             {
-
-                Console.WriteLine("Erro no método ouvir causado pelo socket {0}",s_erro.Message);
+                Console.WriteLine($"Erro no método ouvir causado pelo socket {s_erro.Message}");
             }
-        }
-        public void Execultar(Catraca c) {
 
+        }
+        /// <summary>
+        /// Utilizado quando é execultado dentro de um laço infinito, e se quer ficar rodando.
+        /// </summary>
+        /// <param name="c"></param>
+        public static void Execultar(Catraca c)
+        {
+#pragma warning disable CS0612 // Type or member is obsolete
             SctCatraca = FuncoesHenry.Configurar(c.IPComunicacao, c.Porta);
+#pragma warning restore CS0612 // Type or member is obsolete
             SctCatraca.Connect(FuncoesHenry.IPPontoFinal);
             TipoEquipamento = c.TipoEquipamento;
+
             if (!SctCatraca.Connected)
                 return;
             try
             {
-                Thread th = new Thread(Ouvir);
-                th.Start(SctCatraca);
+                //Trabalhar com Thread
+                //Thread th = new Thread(Ouvir);
+                //th.Start(SctCatraca);
+                
+                //Trabalhar com Task
+                Task task = Task.Factory.StartNew(() => Ouvir(SctCatraca));
+                task.Wait();
             }
-            catch (ThreadAbortException tErroAborta){
-                Console.WriteLine("Erro, thread abortada {0}", tErroAborta.Message);
+            catch (ThreadAbortException tErroAborta)
+            {
+                Console.WriteLine($"Erro, thread abortada {tErroAborta.Message}");
             }
-            catch (ThreadInterruptedException tErroInterrupcao) {
-                Console.WriteLine("Erro, thread interrompida {0}", tErroInterrupcao.Message);
+            catch (ThreadInterruptedException tErroInterrupcao)
+            {
+                Console.WriteLine($"Erro, thread interrompida {tErroInterrupcao.Message}");
             }
-            catch (SocketException sctErro) {
-                Console.WriteLine("Erro, na comunicação socket {0}", sctErro.Message);
+            catch (SocketException sctErro)
+            {
+                Console.WriteLine($"Erro, na comunicação socket {sctErro.Message}");
             }
-
         }
-        private bool VerificarNumeroComanda(int numeroComanda)
+        /// <summary>
+        /// Utilizando quando se quer puxar a informação uma única vez.
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        public static string Escutar(Catraca c)
         {
-            Comanda comanda = new Comanda {
-                Numero = numeroComanda,
-                Pago = true
-            };
+            SctCatraca = FuncoesHenry.Configurar(c.IPComunicacao, c.Porta);
+            SctCatraca.Connect(FuncoesHenry.IPPontoFinal);
+            TipoEquipamento = c.TipoEquipamento;
 
-            return comanda.Pago;
+            if (!SctCatraca.Connected)
+                return "Equipamento solicita não está conectado no momento!";
+
+            //Recebe a mensagem enviada
+            string msgRecebida = FuncoesHenry.Receber(SctCatraca);
+            MensagemCatraca msg = FuncoesHenry.RecuperarMensagem(msgRecebida);
+
+            //Verifica a informação
+
+            if (msg.NumeroCartao <= 0)
+                return "Cartão não foi informado/Registrado...";
+
+            //Formata a mensagem
+            string responder = string.Empty;
+            responder = PrepararComando(msg.CodigoComando);
+            responder = FuncoesHenry.FormatarTexto(responder);
+            FuncoesHenry.Enviar(responder, SctCatraca);
+            return msg.DescricaoCodigo;
 
         }
-
-        private string PrepararComando(int numeroComanda)
+        private static bool VerificarNumeroComanda(int numeroComanda, object banco)
+        {
+            //Aplicar a lógica para consultar o cartão no banco de dados
+            return numeroComanda > 0;
+        }
+        private static string PrepararComando(int numeroComanda)
         {
             if (numeroComanda <= 0)
                 return "";
 
             string comando = "01+REON+00+30]7] B L O Q U E A D O ]";
-            if (VerificarNumeroComanda(numeroComanda))
+            if (VerificarNumeroComanda(numeroComanda, Banco))
             {
                 //Verifica o tipo da definição atribuida da catraca
                 switch (TipoEquipamento)
@@ -125,5 +172,7 @@ namespace Treino_Socket_III.Catracas
             }
             return comando;
         }
+        #endregion Métodos
+
     }
 }

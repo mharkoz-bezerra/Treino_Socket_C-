@@ -146,13 +146,13 @@ namespace Treino_Socket_III.Catracas.Controller
             }
         }
 
-        public static MensagemCatraca RecuperarMensagem(byte[] byteMensagem) {
+        public static MensagemCatraca RecuperarMensagem(string mensagem) {
 
-            string mensagem = deBytesParaString(byteMensagem);
+            byte[] bytes = Encoding.ASCII.GetBytes(mensagem);
             MensagemCatraca objMensagem = new MensagemCatraca();
             string[] msgSeparada = mensagem.Split(']');
 
-            string[] comando = msgSeparada[0].Split('+'); //Retorna o comando
+            string[] comando = msgSeparada[0].Split('+'); 
             int numero = 0;
             if (int.TryParse(msgSeparada[1], out numero))
                 objMensagem.NumeroCartao = numero;
@@ -165,7 +165,7 @@ namespace Treino_Socket_III.Catracas.Controller
 
             int codcomando = 0;
             if (int.TryParse(comando[3], out codcomando))
-                objMensagem.CodigoComando = codcomando; //RespostaHenry(nc);
+                objMensagem.CodigoComando = codcomando; 
 
             objMensagem.DescricaoCodigo = RespostaHenry(codcomando);
             return objMensagem;

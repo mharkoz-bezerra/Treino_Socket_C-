@@ -63,7 +63,7 @@ namespace Treino_Socket_III
                 switch (numero)
                 {
                     case 1:
-                        Servidor servidor = new Servidor("localhost", 8080);
+                        Servidor servidor = new Servidor("192.168.15.9", 8080);
                         servidor.Iniciar();
                         servidor.Ouvir();
                         break;
@@ -82,7 +82,7 @@ namespace Treino_Socket_III
                         ServicoSegundoPlano.EscutarCatracaHenry();
                         break;
                     case 5:
-                        ServidorHenry srvHenry = new ServidorHenry("127.0.0.1", 3000);
+                        ServidorHenry srvHenry = new ServidorHenry("127.0.0.1", 8000);
                         srvHenry.Iniciar();
                         srvHenry.Ouvir();
                         break;
