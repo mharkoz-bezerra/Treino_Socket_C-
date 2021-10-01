@@ -35,7 +35,8 @@ namespace Treino_Socket_III.Catracas
 
         }
         /// <summary>
-        ///  Usado para inicar uma comunicação um cliente.
+        ///  Usado para inicar uma comunicação um cliente.6207713
+        ///  
         /// </summary>
         public void Iniciar()
         {
